@@ -1,0 +1,40 @@
+# Arquivos de ambiente
+.env
+*.env
+
+# Arquivos de compilação Arduino
+build/
+.build/
+*.hex
+*.elf
+*.bin
+
+# Arquivos de configuração Arduino
+arduino.json
+arduino.yaml
+.vscode/
+.pio/
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.bak
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Dependências e bibliotecas
+libraries/
+node_modules/
+
+# Arquivos de debug
+debug.cfg
+debug.svd
+
+# Arquivos de configuração pessoal
+*.local
+*.private
+
+# Arquivos de log
+*.log 
