@@ -5,4 +5,8 @@
 #define DHTPIN 27
 #define DHTTYPE DHT22
 
+// HC-SR04 - Sensor Ultrassônico
+#define TRIGGER_PIN 26
+#define ECHO_PIN 25
+
 #endif
