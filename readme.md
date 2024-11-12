@@ -1,14 +1,13 @@
-# Sistema de Monitoramento com ESP32, DHT22 e HC-SR04
+# Sistema de Monitoramento com ESP32, DHT22, HC-SR04 e PIR
 
 ## Descrição
-Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatura/umidade e HC-SR04 para nível de água, desenvolvido como parte do projeto da FIAP.
+Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatura/umidade, HC-SR04 para nível de água e PIR para detecção de movimento.
 
 ## Sensores Utilizados
 ### DHT22 (AM2302)
 - Sensor digital de temperatura e umidade
 - Alta precisão (±0.5°C, ±2-5% RH)
 - Leituras a cada 2 segundos
-- Interface digital de fácil integração
 
 ### HC-SR04
 - Sensor ultrassônico de distância
@@ -16,12 +15,18 @@ Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatu
 - Precisão: 3mm
 - Ângulo de medição: 15°
 
+### PIR (HC-SR501)
+- Sensor de movimento infravermelho
+- Alcance: 3-7 metros
+- Ângulo de detecção: 120°
+- Tempo de calibração: 60s
+
 ## Funcionalidades
-- Monitoramento contínuo de temperatura e umidade
-- Medição de nível de água em reservatório
-- Sistema de alerta para nível baixo de água
-- Exibição de dados via Serial Monitor
-- Validação de leituras dos sensores
+- Monitoramento de temperatura e umidade
+- Medição de nível de água
+- Detecção de movimento
+- Sistema de alertas
+- Exibição de dados via Serial
 
 ## Configuração do Hardware
 1. Conexões do DHT22:
@@ -34,6 +39,11 @@ Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatu
    - GND → GND
    - TRIG → GPIO26
    - ECHO → GPIO25
+
+3. Conexões do PIR:
+   - VCC → 5V
+   - GND → GND
+   - OUT → GPIO13
 
 ## Como Usar
 1. Clone o repositório
@@ -73,6 +83,9 @@ Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatu
    // HC-SR04
    #define TRIGGER_PIN 26
    #define ECHO_PIN 25
+
+   // PIR
+   #define PIR_PIN 13
    ```
 
 4. Compilação e Upload
@@ -101,20 +114,23 @@ projeto/
 │   ├── main.cpp            # Arquivo principal
 │   ├── sensors/            # Implementação dos sensores
 │   │   ├── dht.h          # Classe do sensor DHT22
-│   │   └── ultrasonic.h   # Classe do sensor HC-SR04
+│   │   ├── ultrasonic.h   # Classe do sensor HC-SR04
+│   │   └── pir.h         # Classe do sensor PIR
 │   └── config/            # Configurações
 │       └── pins_config.h  # Definição dos pinos
 │
 ├── docs/                   # Documentação
 │   ├── sensors/           # Docs dos sensores
 │   │   ├── dht22.md      # Especificações DHT22
-│   │   └── hc-sr04.md    # Especificações HC-SR04
+│   │   ├── hc-sr04.md    # Especificações HC-SR04
+│   │   └── pir.md        # Especificações PIR
 │   └── circuit/          # Docs do circuito
 │       └── connections.md # Diagrama de conexões
 │
 ├── test/                  # Testes unitários
 │   ├── test_dht.cpp      # Testes do DHT22
-│   └── test_ultrasonic.cpp # Testes do HC-SR04
+│   ├── test_ultrasonic.cpp # Testes do HC-SR04
+│   └── test_pir.cpp     # Testes do PIR
 │
 ├── .gitignore            # Arquivos ignorados pelo git
 ├── platformio.ini        # Configuração do PlatformIO
@@ -176,6 +192,9 @@ projeto/
    # Executar teste específico do DHT22
    pio test -f test_dht
 
+   # Executar teste específico do PIR
+   pio test -f test_pir
+
    # Executar com saída detalhada
    pio test -v
    ```
@@ -203,3 +222,8 @@ projeto/
    - Validação de range (2-400cm)
    - Tratamento de timeout
    - Armazenamento de última leitura
+
+3. Sensor PIR:
+   - Inicialização
+   - Detecção de movimento
+   - Sistema de alertas
