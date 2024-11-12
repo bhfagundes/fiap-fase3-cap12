@@ -9,4 +9,7 @@
 #define TRIGGER_PIN 26
 #define ECHO_PIN 25
 
+// PIR Motion Sensor
+#define PIR_PIN 13
+
 #endif
