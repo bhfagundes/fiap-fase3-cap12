@@ -1,93 +1,89 @@
-# Conexões do Circuito
+# Conexões do Sistema de Monitoramento
 
-## ESP32 DevKit
+## Visão Geral
+Sistema completo utilizando ESP32 com três sensores:
+- DHT22 (Temperatura/Umidade)
+- HC-SR04 (Ultrassônico)
+- PIR HC-SR501 (Movimento)
 
-### 1. Sensor DHT22
-| Sensor Pin | ESP32 Pin | Descrição    |
-|------------|-----------|--------------|
-| VCC        | 3.3V      | Alimentação  |
-| GND        | GND       | Terra        |
-| DATA       | GPIO27    | Dados        |
+## Tabela de Conexões
 
-### 2. Sensor HC-SR04
-| Sensor Pin | ESP32 Pin | Descrição    |
-|------------|-----------|--------------|
-| VCC        | 5V        | Alimentação  |
-| GND        | GND       | Terra        |
-| TRIG       | GPIO26    | Trigger      |
-| ECHO       | GPIO25    | Echo         |
+### ESP32 DevKit C
+| Sensor    | Pino ESP32 | Tipo  | Descrição        |
+|-----------|------------|-------|------------------|
+| DHT22     | GPIO27     | Data  | Dados           |
+|           | 3.3V       | Power | Alimentação      |
+|           | GND        | GND   | Terra           |
+| HC-SR04   | GPIO26     | Trig  | Trigger         |
+|           | GPIO25     | Echo  | Echo            |
+|           | 5V         | Power | Alimentação      |
+|           | GND        | GND   | Terra           |
+| PIR       | GPIO13     | Data  | Saída Digital   |
+|           | 5V         | Power | Alimentação      |
+|           | GND        | GND   | Terra           |
+
+## Requisitos de Energia
+- DHT22: 3.3V (baixo consumo)
+- HC-SR04: 5V (~15mA)
+- PIR: 5V (~50mA)
+- Consumo total estimado: ~65mA + ESP32
 
 ## Diagrama de Conexões
 ```
-[ESP32] -------- [DHT22]          [HC-SR04]
-3.3V    -------- VCC
-5V      -------------------------- VCC
-GND     -------- GND      ------- GND
-GPIO27  -------- DATA
-GPIO26  -------------------------- TRIG
-GPIO25  -------------------------- ECHO
+ESP32           DHT22
+GPIO27    <-->  DATA
+3.3V      <-->  VCC
+GND       <-->  GND
+
+ESP32           HC-SR04
+GPIO26    <-->  TRIG
+GPIO25    <-->  ECHO
+5V        <-->  VCC
+GND       <-->  GND
+
+ESP32           PIR
+GPIO13    <-->  OUT
+5V        <-->  VCC
+GND       <-->  GND
 ```
 
-## Componentes Necessários
-1. ESP32 DevKit
-2. Sensor DHT22 (AM2302)
-3. Sensor HC-SR04
-4. Resistor pull-up 10kΩ (para DHT22)
-5. Jumpers/fios para conexão
-6. Protoboard
-
-## Notas de Montagem
-
-### DHT22
-1. **Resistor Pull-up**
-   - Conectar resistor 10kΩ entre VCC e DATA
-   - Necessário para comunicação estável
-
-### HC-SR04
-1. **Alimentação**
-   - Usar 5V para funcionamento correto
-   - Não usar 3.3V (pode causar leituras instáveis)
-
-2. **Considerações de Montagem**
-   - Manter sensor perpendicular à superfície medida
-   - Evitar obstáculos no cone de medição (15°)
-   - Distância mínima: 2cm
-   - Distância máxima: 400cm
-
 ## Verificação de Conexões
-1. Verificar polaridade (VCC/GND)
-2. Confirmar GPIOs corretos
-   - DHT22: GPIO27
-   - HC-SR04: GPIO26 (TRIG) e GPIO25 (ECHO)
-3. Testar continuidade das conexões
-4. Medir tensões de alimentação
-   - DHT22: 3.3V
-   - HC-SR04: 5V
+1. Alimentação
+   - Verificar 3.3V para DHT22
+   - Verificar 5V para HC-SR04 e PIR
+   - Confirmar GND comum
+
+2. Sinais
+   - DHT22: Pino de dados (GPIO27)
+   - HC-SR04: TRIG (GPIO26) e ECHO (GPIO25)
+   - PIR: Saída (GPIO13)
 
 ## Troubleshooting
 
 ### DHT22
-1. **Sem Leitura**
-   - Verificar alimentação 3.3V
-   - Testar continuidade
-   - Confirmar resistor pull-up
+- Verificar resistor pull-up (já integrado)
+- Distância máxima recomendada: 20m
+- Evitar interferência eletromagnética
 
 ### HC-SR04
-1. **Leituras Incorretas**
-   - Verificar alimentação 5V
-   - Confirmar conexões TRIG/ECHO
-   - Checar obstáculos
-   - Verificar ângulo de medição
+- Verificar polaridade VCC/GND
+- Manter TRIG/ECHO separados
+- Distância máxima: 4m
 
-2. **Sem Resposta**
-   - Testar alimentação
-   - Verificar continuidade
-   - Confirmar GPIOs
+### PIR
+- Aguardar calibração (60s)
+- Verificar jumpers de configuração
+- Ajustar sensibilidade se necessário
 
-## Simulação
-O circuito pode ser testado no Wokwi usando o arquivo `diagram.json` fornecido.
+## Notas de Montagem
+1. Usar cabos de qualidade
+2. Manter conexões curtas
+3. Evitar cruzamento de sinais
+4. Proteger contra curto-circuito
+5. Considerar caixa de proteção
 
-## Referências
-- [Datasheet DHT22](link-para-datasheet)
-- [Datasheet HC-SR04](link-para-datasheet)
-- [ESP32 Pinout](link-para-pinout)
+## Manutenção
+1. Verificação periódica das conexões
+2. Limpeza dos sensores
+3. Teste de continuidade
+4. Calibração quando necessário
