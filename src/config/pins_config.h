@@ -12,4 +12,8 @@
 // PIR Motion Sensor
 #define PIR_PIN 13
 
+// LDR - Light Sensor
+#define LDR_PIN 35  // ADC1_CHANNEL_7
+#define LDR_THRESHOLD 2000  // Valor de referência para luz baixa
+
 #endif
