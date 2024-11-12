@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "author": "Seu Nome",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-dht22", "id": "dht1", "top": 29.1, "left": 273, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic1", "top": 150, "left": 273, "attrs": { "distance": "100" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:GND.1", "dht1:GND", "black", [ "h0" ] ],
+    [ "esp:3V3", "dht1:VCC", "red", [ "h0" ] ],
+    [ "esp:27", "dht1:SDA", "green", [ "h0" ] ],
+    [ "esp:GND.2", "ultrasonic1:GND", "black", [ "h0" ] ],
+    [ "esp:5V", "ultrasonic1:VCC", "red", [ "h0" ] ],
+    [ "esp:26", "ultrasonic1:TRIG", "yellow", [ "h0" ] ],
+    [ "esp:25", "ultrasonic1:ECHO", "blue", [ "h0" ] ]
+  ]
+}
