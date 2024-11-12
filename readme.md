@@ -145,3 +145,61 @@ projeto/
 ### Documentação
 - `README.md`: Documentação principal do projeto
 - `docs/*.md`: Documentação específica dos componentes
+
+## Como Testar
+### Configuração dos Testes
+1. Verifique se o `platformio.ini` inclui as configurações de teste:
+   ```ini
+   [env:esp32dev]
+   platform = espressif32
+   board = esp32dev
+   framework = arduino
+   monitor_speed = 115200
+   lib_deps =
+       adafruit/DHT sensor library @ ^1.4.4
+       adafruit/Adafruit Unified Sensor @ ^1.1.9
+   
+   test_framework = unity
+   test_build_src = yes
+   test_filter = test_*
+   ```
+
+### Executando os Testes
+1. Via Linha de Comando:
+   ```bash
+   # Executar todos os testes
+   pio test
+
+   # Executar teste específico do ultrassônico
+   pio test -f test_ultrasonic
+
+   # Executar teste específico do DHT22
+   pio test -f test_dht
+
+   # Executar com saída detalhada
+   pio test -v
+   ```
+
+2. Via VS Code:
+   - Abra a extensão PlatformIO
+   - Navegue até a seção "Testing"
+   - Clique em "Test" ou selecione o teste específico
+
+### Verificando Resultados
+- Os resultados são exibidos no terminal
+- Relatório detalhado disponível em `.pio/test/esp32dev/output.txt`
+- Logs de erro em caso de falha
+
+### Testes Implementados
+1. Sensor DHT22:
+   - Inicialização
+   - Leitura de temperatura
+   - Leitura de umidade
+   - Validação de dados
+
+2. Sensor HC-SR04:
+   - Inicialização
+   - Medição de distância
+   - Validação de range (2-400cm)
+   - Tratamento de timeout
+   - Armazenamento de última leitura
