@@ -37,8 +37,6 @@ class EnvConfig {
       file.close();
       
       Serial.println("Configurações carregadas:");
-      Serial.println("SSID: " + ap_ssid);
-      Serial.println("Password: " + ap_password);
     }
     
   public:
