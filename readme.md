@@ -1,26 +1,39 @@
-# Sistema de Monitoramento com ESP32 e DHT22
+# Sistema de Monitoramento com ESP32, DHT22 e HC-SR04
 
 ## Descrição
-Sistema de monitoramento de temperatura e umidade utilizando ESP32 e sensor DHT22, desenvolvido como parte do projeto da FIAP.
+Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatura/umidade e HC-SR04 para nível de água, desenvolvido como parte do projeto da FIAP.
 
-## Sensor Utilizado
+## Sensores Utilizados
 ### DHT22 (AM2302)
 - Sensor digital de temperatura e umidade
 - Alta precisão (±0.5°C, ±2-5% RH)
 - Leituras a cada 2 segundos
 - Interface digital de fácil integração
 
+### HC-SR04
+- Sensor ultrassônico de distância
+- Range: 2cm a 400cm
+- Precisão: 3mm
+- Ângulo de medição: 15°
+
 ## Funcionalidades
-- Monitoramento contínuo de temperatura
-- Medição de umidade relativa do ar
+- Monitoramento contínuo de temperatura e umidade
+- Medição de nível de água em reservatório
+- Sistema de alerta para nível baixo de água
 - Exibição de dados via Serial Monitor
-- Validação de leituras do sensor
+- Validação de leituras dos sensores
 
 ## Configuração do Hardware
 1. Conexões do DHT22:
    - VCC → 3.3V
    - GND → GND
    - DATA → GPIO27
+
+2. Conexões do HC-SR04:
+   - VCC → 5V
+   - GND → GND
+   - TRIG → GPIO26
+   - ECHO → GPIO25
 
 ## Como Usar
 1. Clone o repositório
@@ -53,8 +66,13 @@ Sistema de monitoramento de temperatura e umidade utilizando ESP32 e sensor DHT2
 
    c. Configuração dos Pinos (`src/config/pins_config.h`):
    ```cpp
+   // DHT22
    #define DHTPIN 27
    #define DHTTYPE DHT22
+
+   // HC-SR04
+   #define TRIGGER_PIN 26
+   #define ECHO_PIN 25
    ```
 
 4. Compilação e Upload
@@ -70,29 +88,33 @@ Sistema de monitoramento de temperatura e umidade utilizando ESP32 e sensor DHT2
    ```
 
 5. Verificação
-   - Monitor serial deve mostrar leituras a cada 2 segundos
+   - Monitor serial mostra leituras a cada 2 segundos
    - Temperatura em °C
    - Umidade em %
+   - Distância em cm
+   - Alertas de nível baixo de água
 
 ## Estrutura do Projeto
-
 ```
 projeto/
 ├── src/                     # Código fonte
 │   ├── main.cpp            # Arquivo principal
 │   ├── sensors/            # Implementação dos sensores
-│   │   └── dht.h          # Classe do sensor DHT22
+│   │   ├── dht.h          # Classe do sensor DHT22
+│   │   └── ultrasonic.h   # Classe do sensor HC-SR04
 │   └── config/            # Configurações
 │       └── pins_config.h  # Definição dos pinos
 │
 ├── docs/                   # Documentação
 │   ├── sensors/           # Docs dos sensores
-│   │   └── dht22.md      # Especificações DHT22
+│   │   ├── dht22.md      # Especificações DHT22
+│   │   └── hc-sr04.md    # Especificações HC-SR04
 │   └── circuit/          # Docs do circuito
 │       └── connections.md # Diagrama de conexões
 │
 ├── test/                  # Testes unitários
-│   └── test_dht.cpp      # Testes do sensor
+│   ├── test_dht.cpp      # Testes do DHT22
+│   └── test_ultrasonic.cpp # Testes do HC-SR04
 │
 ├── .gitignore            # Arquivos ignorados pelo git
 ├── platformio.ini        # Configuração do PlatformIO
