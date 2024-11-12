@@ -2,11 +2,13 @@
 #include "sensors/dht.h"
 #include "sensors/ultrasonic.h"
 #include "sensors/pir.h"
+#include "sensors/ldr.h"
 
 // Instanciação dos sensores
 DHTSensor dhtSensor(DHTPIN);
 UltrasonicSensor ultrasonicSensor(TRIGGER_PIN, ECHO_PIN);
 PIRSensor pirSensor(PIR_PIN);
+LDRSensor ldrSensor(LDR_PIN);
 
 void setup() {
     Serial.begin(115200);
@@ -22,6 +24,10 @@ void setup() {
     ultrasonicSensor.begin();
     Serial.println("Sensor HC-SR04 iniciado");
     
+    // Inicializa LDR
+    ldrSensor.begin();
+    Serial.println("Sensor LDR iniciado");
+    
     // Inicializa PIR com feedback de calibração
     Serial.println("Iniciando calibração do sensor PIR...");
     Serial.println("Aguarde 60 segundos...");
@@ -34,6 +40,7 @@ void setup() {
     
     pirSensor.begin();
     Serial.println("Sensor PIR calibrado e pronto!");
+    Serial.println("\nSistema iniciado e pronto para monitoramento!");
 }
 
 void loop() {
@@ -43,6 +50,10 @@ void loop() {
 
     // Leitura do HC-SR04
     float distance = ultrasonicSensor.readDistance();
+
+    // Leitura do LDR
+    int lightLevel = ldrSensor.readLight();
+    int lightPercent = ldrSensor.getLightPercent();
 
     // Leitura do PIR
     bool motion = pirSensor.detectMotion();
@@ -59,6 +70,12 @@ void loop() {
         Serial.println("Falha ao ler do sensor HC-SR04!");
     } else {
         Serial.printf("Distância: %.2f cm\n", distance);
+    }
+
+    // Exibe leituras do LDR
+    Serial.printf("Nível de luz: %d (%d%%)\n", lightLevel, lightPercent);
+    if (ldrSensor.isLowLight()) {
+        Serial.println("ALERTA: Baixa luminosidade!");
     }
 
     // Exibe status do PIR
@@ -81,6 +98,8 @@ void loop() {
     if (humidity < 40) {
         Serial.println("ALERTA: Umidade baixa!");
     }
+
+    Serial.println("-----------------------------------");
 
     // Aguarda antes da próxima leitura
     delay(2000);
