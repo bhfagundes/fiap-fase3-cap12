@@ -1,5 +1,8 @@
 # Sistema de Monitoramento com ESP32, DHT22, HC-SR04 e PIR
 
+## Demonstração
+Projeto em funcionamento no simulador Wokwi: [ESP32 Monitoring System](https://wokwi.com/projects/414347450896821249)
+
 ## Descrição
 Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatura/umidade, HC-SR04 para nível de água e PIR para detecção de movimento.
 
