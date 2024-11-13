@@ -3,6 +3,9 @@
 ## Demonstração
 Projeto em funcionamento no simulador Wokwi: [ESP32 Monitoring System](https://wokwi.com/projects/414347450896821249)
 
+## Versão mais recente
+A branch `feat/ldr` contém a versão mais atualizada do projeto, incluindo o sensor LDR (fotoresistor) e todas as melhorias recentes. Um Pull Request está aberto com estas alterações e pode ser encontrado [aqui](https://github.com/bhfagundes/fiap-fase3-cap12/pull/5).
+
 ## Descrição
 Sistema de monitoramento agrícola utilizando ESP32, sensor DHT22 para temperatura/umidade, HC-SR04 para nível de água e PIR para detecção de movimento.
 
